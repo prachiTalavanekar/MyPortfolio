@@ -14,7 +14,30 @@ const Home = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-6xl font-bold text-text mb-6">
-              Prachi Pravin Talavanekar
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="inline-block"
+              >
+                Prachi
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="inline-block ml-4"
+              >
+                Pravin
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="inline-block ml-4"
+              >
+                Talavanekar
+              </motion.span>
             </h1>
             <h2 className="text-2xl md:text-3xl text-text mb-8">
               Aspiring Software Developer | Frontend Developer | AI/ML Learner
