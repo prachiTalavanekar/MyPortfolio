@@ -14,7 +14,7 @@ const Footer = () => {
           
           <div className="flex space-x-6">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/prachiTalavanekar"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-secondary transition-colors"
@@ -22,7 +22,7 @@ const Footer = () => {
               <FaGithub size={20} />
             </a>
             <a
-              href="https://linkedin.com/in/yourprofile"
+              href="https://www.linkedin.com/in/prachi-talavanekar-124195312"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-secondary transition-colors"
@@ -30,7 +30,7 @@ const Footer = () => {
               <FaLinkedin size={20} />
             </a>
             <a
-              href="mailto:your.email@example.com"
+              href="mailto:talavanekarprachi31@gmail.com"
               className="hover:text-secondary transition-colors"
             >
               <FaEnvelope size={20} />

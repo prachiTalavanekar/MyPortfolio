@@ -157,7 +157,7 @@ const Home = () => {
               <FaGithub size={28} className="sm:w-8 sm:h-8" />
             </a>
             <a
-              href="https://linkedin.com/in/yourprofile"
+              href="https://www.linkedin.com/in/prachi-talavanekar-124195312"
               target="_blank"
               rel="noopener noreferrer"
               className="text-text hover:text-text-muted transition-colors p-2 rounded-lg hover:bg-secondary hover:bg-opacity-20"

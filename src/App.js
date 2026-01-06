@@ -11,6 +11,7 @@ import Projects from './pages/Projects';
 import Resume from './pages/Resume';
 import Certifications from './pages/Certifications';
 import Contact from './pages/Contact';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/resume" element={<Resume />} />
             <Route path="/certifications" element={<Certifications />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <Footer />

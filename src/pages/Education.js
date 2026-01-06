@@ -7,10 +7,10 @@ const Education = () => {
       id: 1,
       degree: 'Bachelor of Science in Computer Science',
       institution: 'Mumbai University',
-      location: 'Mumbai, Maharashtra',
-      duration: '2022 - 2025',
+      location: 'Kudal, Sindhudurg, Maharashtra',
+      duration: '2023 - 2026',
       status: 'Currently Pursuing',
-      cgpa: 'CGPA: 8.5/10',
+      cgpa: 'CGPA: None',
       description: 'Comprehensive study of computer science fundamentals including programming, data structures, algorithms, database management, and software engineering principles.',
       subjects: [
         'Data Structures & Algorithms',
@@ -32,12 +32,12 @@ const Education = () => {
     {
       id: 2,
       degree: 'Higher Secondary Certificate (HSC)',
-      institution: 'Science College',
+      institution: 'Maharashtra State Board of Secondary & Higher Secondary Education, Pune',
       location: 'Mumbai, Maharashtra',
-      duration: '2020 - 2022',
+      duration: '2022 - 2023',
       status: 'Completed',
       cgpa: 'Percentage: 85%',
-      description: 'Specialized in Science stream with focus on Mathematics, Physics, and Chemistry, building strong analytical and problem-solving foundation.',
+      description: 'Specialized in Science stream with focus on Computer Science, Mathematics, Physics, and Chemistry, building strong analytical and problem-solving foundation.',
       subjects: [
         'Mathematics',
         'Physics',
@@ -141,7 +141,7 @@ const Education = () => {
                     {edu.description}
                   </p>
 
-                  <div className="mb-6">
+                  {/* <div className="mb-6">
                     <h4 className="text-lg font-semibold text-text mb-3">Key Subjects</h4>
                     <div className="flex flex-wrap gap-2">
                       {edu.subjects.map((subject, subIndex) => (
@@ -153,7 +153,7 @@ const Education = () => {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Achievements */}

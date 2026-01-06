@@ -52,7 +52,7 @@ const Contact = () => {
             <h2 className="text-2xl font-bold text-text mb-8">
               Contact Information
             </h2>
-            
+
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
                 <div className="bg-secondary text-text p-3 rounded-lg border border-secondary">
@@ -60,27 +60,27 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-text">Email</h3>
-                  <p className="text-text-muted">your.email@example.com</p>
+                  <p className="text-text-muted">talavanekarprachi31@gmail.com</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-4">
                 <div className="bg-secondary text-text p-3 rounded-lg border border-secondary">
                   <FaPhone size={20} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-text">Phone</h3>
-                  <p className="text-text-muted">+91 XXXXX XXXXX</p>
+                  <p className="text-text-muted">+91 94225 09340</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-4">
                 <div className="bg-secondary text-text p-3 rounded-lg border border-secondary">
                   <FaMapMarkerAlt size={20} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-text">Location</h3>
-                  <p className="text-text-muted">Mumbai, Maharashtra, India</p>
+                  <p className="text-text-muted">Kudal, Maharashtra, India</p>
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@ const Contact = () => {
               </h3>
               <div className="flex space-x-4">
                 <a
-                  href="https://github.com/yourusername"
+                  href="https://github.com/prachiTalavanekar"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-primary text-text p-3 rounded-lg hover:bg-secondary transition-colors border border-secondary"
@@ -99,7 +99,7 @@ const Contact = () => {
                   <FaGithub size={24} />
                 </a>
                 <a
-                  href="https://linkedin.com/in/yourprofile"
+                  href="https://www.linkedin.com/in/prachi-talavanekar-124195312"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-primary text-text p-3 rounded-lg hover:bg-secondary transition-colors border border-secondary"
@@ -120,7 +120,7 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-text mb-6">
                 Send Me a Message
               </h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-text mb-2">
@@ -137,7 +137,7 @@ const Contact = () => {
                     placeholder="Your full name"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-text mb-2">
                     Email Address
@@ -153,7 +153,7 @@ const Contact = () => {
                     placeholder="your.email@example.com"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-text mb-2">
                     Subject
@@ -169,7 +169,7 @@ const Contact = () => {
                     placeholder="What's this about?"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-text mb-2">
                     Message
@@ -185,7 +185,7 @@ const Contact = () => {
                     placeholder="Your message here..."
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   className="w-full bg-secondary text-text py-3 px-6 rounded-lg font-semibold hover:bg-accent transition-colors border border-secondary"
