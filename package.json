@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "axios": "^1.13.2",
+    "emailjs-com": "^3.2.0",
+    "framer-motion": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.0",
-    "framer-motion": "^10.0.0",
     "react-icons": "^4.7.1",
-    "emailjs-com": "^3.2.0"
+    "react-router-dom": "^6.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,10 +18,10 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1",
-    "tailwindcss": "^3.2.0",
     "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21"
+    "postcss": "^8.4.21",
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^3.2.0"
   },
   "browserslist": {
     "production": [
@@ -33,5 +34,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

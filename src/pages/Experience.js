@@ -47,16 +47,28 @@ const Experience = () => {
     return (
         <div className="pt-16 min-h-screen bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                {/* Header Section */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold text-text mb-6">
-                        Experience
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-secondary to-accent rounded-full mb-6"
+                    >
+                        <FaBriefcase className="text-3xl text-text" />
+                    </motion.div>
+                    <h1 className="text-4xl md:text-6xl font-bold text-text mb-6">
+                        Professional
+                        <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+                            {' '}Experience
+                        </span>
                     </h1>
-                    <p className="text-xl text-text-muted max-w-3xl mx-auto">
+                    <p className="text-xl text-text-muted max-w-3xl mx-auto leading-relaxed">
                         My professional journey and hands-on experience in software development and technology
                     </p>
                 </motion.div>
@@ -68,17 +80,17 @@ const Experience = () => {
                             initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8, delay: index * 0.2 }}
-                            className="bg-primary border border-secondary rounded-xl p-8 shadow-xl"
+                            className="bg-primary border border-secondary rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group hover:border-accent"
                         >
                             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                                 {/* Main Info */}
                                 <div className="lg:col-span-3">
                                     <div className="flex items-start space-x-4 mb-6">
-                                        <div className="bg-secondary p-3 rounded-lg">
+                                        <div className="bg-gradient-to-r from-secondary to-accent p-3 rounded-xl">
                                             <FaBriefcase className="text-2xl text-text" />
                                         </div>
                                         <div>
-                                            <h2 className="text-2xl font-bold text-text mb-2">
+                                            <h2 className="text-2xl font-bold text-text mb-2 group-hover:text-accent transition-colors">
                                                 {exp.title}
                                             </h2>
                                             <h3 className="text-xl text-text mb-2">
@@ -94,7 +106,7 @@ const Experience = () => {
                                                     <span>{exp.duration}</span>
                                                 </div>
                                             </div>
-                                            <div className="inline-block bg-secondary text-text px-3 py-1 rounded-full text-sm font-medium">
+                                            <div className="inline-block bg-gradient-to-r from-secondary to-accent text-text px-4 py-2 rounded-full text-sm font-medium">
                                                 {exp.type}
                                             </div>
                                         </div>
@@ -161,7 +173,7 @@ const Experience = () => {
                     transition={{ duration: 0.8, delay: 0.8 }}
                     className="mt-16"
                 >
-                    <div className="bg-primary border border-secondary rounded-xl p-8">
+                    <div className="bg-primary border border-secondary rounded-2xl p-8 shadow-xl">
                         <h2 className="text-2xl font-bold text-text mb-6 text-center">
                             Professional Skills Gained
                         </h2>
@@ -185,16 +197,28 @@ const Experience = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 1.0 }}
-                    className="mt-12 text-center"
+                    className="mt-12"
                 >
-                    <div className="bg-primary border border-secondary rounded-lg p-8">
-                        <h2 className="text-2xl font-bold text-text mb-4">
-                            Looking Forward
-                        </h2>
-                        <p className="text-text-muted leading-relaxed max-w-3xl mx-auto">
-                            I'm actively seeking opportunities to further develop my skills in full-stack development,
-                            contribute to meaningful projects, and grow as a software engineer in a collaborative environment.
-                        </p>
+                    <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 border border-accent">
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold text-text mb-6">
+                                Looking Forward
+                            </h2>
+                            <p className="text-text-muted leading-relaxed max-w-4xl mx-auto text-lg">
+                                I'm actively seeking opportunities to further develop my skills in full-stack development,
+                                contribute to meaningful projects, and grow as a software engineer in a collaborative environment.
+                            </p>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1.4 }}
+                                className="mt-8 flex justify-center"
+                            >
+                                <div className="bg-accent text-text px-8 py-3 rounded-full font-semibold">
+                                    🚀 Ready for New Challenges
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </motion.div>
             </div>

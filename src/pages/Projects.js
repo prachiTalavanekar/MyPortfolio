@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaProjectDiagram } from 'react-icons/fa';
 
 const Projects = () => {
   const projects = [
@@ -84,16 +84,28 @@ const Projects = () => {
   return (
     <div className="pt-16 min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-text mb-6">
-            My Projects
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-secondary to-accent rounded-full mb-6"
+          >
+            <FaProjectDiagram className="text-3xl text-text" />
+          </motion.div>
+          <h1 className="text-4xl md:text-6xl font-bold text-text mb-6">
+            My
+            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+              {' '}Projects
+            </span>
           </h1>
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
+          <p className="text-xl text-text-muted max-w-3xl mx-auto leading-relaxed">
             A collection of projects showcasing my learning journey and practical application of technologies
           </p>
         </motion.div>
@@ -105,14 +117,14 @@ const Projects = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="bg-primary rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-secondary"
+              className="bg-primary rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-secondary group hover:border-accent"
             >
               <div className="h-48 bg-secondary flex items-center justify-center border-b border-secondary">
                 <p className="text-text-muted">Project Screenshot</p>
               </div>
               
               <div className="p-6">
-                <h3 className="text-xl font-bold text-text mb-3">
+                <h3 className="text-xl font-bold text-text mb-3 group-hover:text-accent transition-colors">
                   {project.title}
                 </h3>
                 
@@ -177,16 +189,28 @@ const Projects = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 text-center"
+          className="mt-16"
         >
-          <div className="bg-primary border border-secondary rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-text mb-4">
-              More Projects Coming Soon
-            </h2>
-            <p className="text-text-muted leading-relaxed max-w-3xl mx-auto">
-              I'm continuously working on new projects to expand my skills and explore different technologies. 
-              Check back regularly or follow my GitHub for updates on my latest work.
-            </p>
+          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 border border-accent">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-text mb-6">
+                More Projects Coming Soon
+              </h2>
+              <p className="text-text-muted leading-relaxed max-w-4xl mx-auto text-lg">
+                I'm continuously working on new projects to expand my skills and explore different technologies. 
+                Check back regularly or follow my GitHub for updates on my latest work.
+              </p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="mt-8 flex justify-center"
+              >
+                <div className="bg-accent text-text px-8 py-3 rounded-full font-semibold">
+                  🚀 Building the Future
+                </div>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -80,16 +80,28 @@ const Education = () => {
   return (
     <div className="pt-16 min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-text mb-6">
-            Education
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-secondary to-accent rounded-full mb-6"
+          >
+            <FaGraduationCap className="text-3xl text-text" />
+          </motion.div>
+          <h1 className="text-4xl md:text-6xl font-bold text-text mb-6">
+            Education &
+            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+              {' '}Learning
+            </span>
           </h1>
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
+          <p className="text-xl text-text-muted max-w-3xl mx-auto leading-relaxed">
             My academic journey and educational background in computer science and technology
           </p>
         </motion.div>
@@ -101,17 +113,17 @@ const Education = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="bg-primary border border-secondary rounded-xl p-8 shadow-xl"
+              className="bg-primary border border-secondary rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group hover:border-accent"
             >
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Info */}
                 <div className="lg:col-span-2">
                   <div className="flex items-start space-x-4 mb-6">
-                    <div className="bg-secondary p-3 rounded-lg">
+                    <div className="bg-gradient-to-r from-secondary to-accent p-3 rounded-xl">
                       <FaGraduationCap className="text-2xl text-text" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-text mb-2">
+                      <h2 className="text-2xl font-bold text-text mb-2 group-hover:text-accent transition-colors">
                         {edu.degree}
                       </h2>
                       <h3 className="text-xl text-text mb-2">
@@ -131,7 +143,7 @@ const Education = () => {
                           <span>{edu.cgpa}</span>
                         </div>
                       </div>
-                      <div className="inline-block bg-secondary text-text px-3 py-1 rounded-full text-sm font-medium">
+                      <div className="inline-block bg-gradient-to-r from-secondary to-accent text-text px-4 py-2 rounded-full text-sm font-medium">
                         {edu.status}
                       </div>
                     </div>
@@ -140,20 +152,6 @@ const Education = () => {
                   <p className="text-text-muted leading-relaxed mb-6">
                     {edu.description}
                   </p>
-
-                  {/* <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-text mb-3">Key Subjects</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {edu.subjects.map((subject, subIndex) => (
-                        <span
-                          key={subIndex}
-                          className="bg-accent text-text px-3 py-1 rounded-lg text-sm border border-secondary"
-                        >
-                          {subject}
-                        </span>
-                      ))}
-                    </div>
-                  </div> */}
                 </div>
 
                 {/* Achievements */}
@@ -177,16 +175,28 @@ const Education = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 text-center"
+          className="mt-16"
         >
-          <div className="bg-primary border border-secondary rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-text mb-4">
-              Continuous Learning
-            </h2>
-            <p className="text-text-muted leading-relaxed max-w-3xl mx-auto">
-              Beyond formal education, I actively pursue online courses, certifications, and hands-on projects 
-              to stay updated with the latest technologies and industry trends in software development.
-            </p>
+          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 border border-accent">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-text mb-6">
+                Continuous Learning
+              </h2>
+              <p className="text-text-muted leading-relaxed max-w-4xl mx-auto text-lg">
+                Beyond formal education, I actively pursue online courses, certifications, and hands-on projects 
+                to stay updated with the latest technologies and industry trends in software development.
+              </p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                className="mt-8 flex justify-center"
+              >
+                <div className="bg-accent text-text px-8 py-3 rounded-full font-semibold">
+                  🎓 Knowledge Never Stops Growing
+                </div>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

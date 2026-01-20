@@ -133,8 +133,8 @@ const Home = () => {
               View Projects
             </Link>
             <a
-              href="/resume.pdf"
-              download
+              href="/PRACHI PRAVIN TALAVANEKAR-resume.pdf"
+              download="PRACHI PRAVIN TALAVANEKAR-resume.pdf"
               className="w-full sm:w-auto bg-transparent text-text border-2 border-secondary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-secondary hover:text-text transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <FaDownload />
