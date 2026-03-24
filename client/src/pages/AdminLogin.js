@@ -188,19 +188,7 @@ const AdminLogin = () => {
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 p-4 bg-background border border-secondary rounded-lg"
-          >
-            <p className="text-text-muted text-sm mb-2">Demo Credentials:</p>
-            <p className="text-text text-sm">
-              <strong>Email:</strong> prachi@example.com<br />
-              <strong>Password:</strong> admin123
-            </p>
-          </motion.div>
+
         </motion.div>
 
         {/* Footer */}
