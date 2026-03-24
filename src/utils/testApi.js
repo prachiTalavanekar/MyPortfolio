@@ -4,7 +4,8 @@ import { contactAPI } from '../services/api';
 export const testApiConnection = async () => {
   try {
     // Test if backend is running by making a simple request
-    const response = await fetch('http://localhost:5000/api/health');
+    const API_URL = process.env.REACT_APP_API_URL || 'https://myportfolio-hqp2.onrender.com/api';
+    const response = await fetch(`${API_URL}/health`);
     const data = await response.json();
     
     if (data.status === 'OK') {
@@ -15,7 +16,7 @@ export const testApiConnection = async () => {
     console.error('❌ Backend API connection failed:', error.message);
     return { 
       success: false, 
-      message: 'Backend server is not running. Please start the server on port 5000.' 
+      message: 'Backend server is not running. Please check the server connection.' 
     };
   }
 };
