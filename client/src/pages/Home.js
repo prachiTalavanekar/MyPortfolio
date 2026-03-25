@@ -13,6 +13,8 @@ import {
 } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiExpress, SiPostman, SiMysql, SiCplusplus } from 'react-icons/si';
 import { AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
+import { analyticsAPI } from '../services/api';
 
 // Section divider with label
 const SectionDivider = ({ id, label, icon: Icon }) => (
@@ -685,6 +687,17 @@ const ContactSection = () => {
 
 // ── MAIN HOME COMPONENT ────────────────────────────────────────
 const Home = () => {
+  useEffect(() => {
+    const trackHit = async () => {
+      try {
+        await analyticsAPI.hit();
+      } catch (error) {
+        console.error('Error tracking hit:', error);
+      }
+    };
+    trackHit();
+  }, []);
+
   return (
     <div className="bg-background">
       {/* ── HERO (original, untouched) ── */}

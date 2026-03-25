@@ -27,6 +27,7 @@ import {
   educationAPI, 
   skillsAPI, 
   certificationsAPI,
+  analyticsAPI,
   handleApiError 
 } from '../services/api';
 
@@ -46,6 +47,7 @@ const Admin = () => {
   const [certifications, setCertifications] = useState([]);
   const [skills, setSkills] = useState([]);
   const [education, setEducation] = useState([]);
+  const [stats, setStats] = useState({ pageViews: 0 });
 
   const adminTabs = [
     { id: 'dashboard', name: 'Dashboard', icon: FaUser },
@@ -61,19 +63,21 @@ const Admin = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [projRes, expRes, eduRes, skillRes, certRes] = await Promise.all([
-        projectsAPI.getAll(),
-        experienceAPI.getAll(),
-        educationAPI.getAll(),
-        skillsAPI.getAll(),
-        certificationsAPI.getAll()
+      const [projRes, expRes, eduRes, skillRes, certRes, statsRes] = await Promise.all([
+        projectsAPI.getAll({ visible: 'all' }),
+        experienceAPI.getAll({ visible: 'all' }),
+        educationAPI.getAll({ visible: 'all' }),
+        skillsAPI.getAll({ visible: 'all' }),
+        certificationsAPI.getAll({ visible: 'all' }),
+        analyticsAPI.getStats()
       ]);
 
       setProjects(projRes.data.data || []);
       setExperiences(expRes.data.data || []);
       setEducation(eduRes.data.data || []);
-      setSkills(skillRes.data.data || []);
+      setSkills(skillRes.data.data || (skillRes.data.grouped ? Object.values(skillRes.data.grouped).flat() : []));
       setCertifications(certRes.data.data || []);
+      setStats(statsRes.data.data || { pageViews: 0 });
     } catch (error) {
       console.error('Error fetching data:', error);
       showMsg('error', handleApiError(error));
@@ -149,7 +153,7 @@ const Admin = () => {
       <StatCard icon={FaCertificate} count={certifications.length} title="Certifications" color="text-purple-400" delay={0.2} />
       <StatCard icon={FaCogs} count={skills.length} title="Skills" color="text-yellow-400" delay={0.3} />
       <StatCard icon={FaGraduationCap} count={education.length} title="Education" color="text-pink-400" delay={0.4} />
-      <StatCard icon={FaEye} count="1.2k" title="Portfolio Views" color="text-red-400" delay={0.5} />
+      <StatCard icon={FaEye} count={stats.pageViews} title="Portfolio Views" color="text-red-400" delay={0.5} />
     </div>
   );
 
