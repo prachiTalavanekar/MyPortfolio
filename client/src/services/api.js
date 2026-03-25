@@ -113,6 +113,12 @@ export const contactAPI = {
   delete: (id) => api.delete(`/contact/${id}`),
 };
 
+// Analytics API
+export const analyticsAPI = {
+  getStats: () => api.get('/analytics/stats'),
+  hit: () => api.post('/analytics/hit'),
+};
+
 // Utility functions
 export const handleApiError = (error) => {
   if (error.response?.data?.message) {

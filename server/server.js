@@ -56,6 +56,7 @@ try {
   const skillRoutes = require('./routes/skills');
   const certificationRoutes = require('./routes/certifications');
   const contactRoutes = require('./routes/contact');
+  const analyticsRoutes = require('./routes/analytics');
 
   // Use routes
   app.use('/api/auth', authRoutes);
@@ -65,6 +66,7 @@ try {
   app.use('/api/skills', skillRoutes);
   app.use('/api/certifications', certificationRoutes);
   app.use('/api/contact', contactRoutes);
+  app.use('/api/analytics', analyticsRoutes);
   
   console.log('✅ All routes loaded successfully');
 } catch (error) {
