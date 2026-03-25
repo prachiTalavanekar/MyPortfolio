@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import CursorEffect from './components/CursorEffect';
 import Home from './pages/Home';
 import About from './pages/About';
 import Education from './pages/Education';
@@ -21,6 +22,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="min-h-screen bg-background">
+          <CursorEffect />
           <Routes>
             {/* Admin Routes (no navbar/footer) */}
             <Route path="/admin/login" element={<AdminLogin />} />
