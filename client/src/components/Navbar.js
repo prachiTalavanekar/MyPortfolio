@@ -32,8 +32,11 @@ const Navbar = () => {
               >
                 <FaCode size={24} />
               </motion.div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent hover:from-blue-400 hover:via-purple-500 hover:to-pink-500 transition-all duration-500">
-                CodeCraft
+              <span
+                className="text-2xl font-bold bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent hover:from-cyan-400 hover:via-violet-400 hover:to-fuchsia-400 transition-all duration-500"
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '0.08em' }}
+              >
+                PRACHI
               </span>
             </Link>
           </div>

@@ -28,7 +28,7 @@ const AdminLogin = () => {
   // Clear error when component unmounts
   useEffect(() => {
     return () => clearError();
-  }, [clearError]);
+  }, []); // Only run on unmount
 
   const handleChange = (e) => {
     const { name, value } = e.target;

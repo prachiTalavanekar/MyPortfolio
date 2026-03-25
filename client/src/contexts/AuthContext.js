@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react';
 import { authAPI, setAuthToken, removeAuthToken, isAuthenticated } from '../services/api';
 
 // Initial state
@@ -118,7 +118,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = async (credentials) => {
+  const login = useCallback(async (credentials) => {
     dispatch({ type: AUTH_ACTIONS.LOGIN_START });
     try {
       const response = await authAPI.login(credentials);
@@ -142,10 +142,10 @@ export const AuthProvider = ({ children }) => {
       });
       return { success: false, error: errorMessage };
     }
-  };
+  }, []);
 
   // Logout function
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await authAPI.logout();
     } catch (error) {
@@ -154,15 +154,15 @@ export const AuthProvider = ({ children }) => {
       removeAuthToken();
       dispatch({ type: AUTH_ACTIONS.LOGOUT });
     }
-  };
+  }, []);
 
   // Clear error function
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
-  };
+  }, []);
 
   // Change password function
-  const changePassword = async (passwordData) => {
+  const changePassword = useCallback(async (passwordData) => {
     try {
       await authAPI.changePassword(passwordData);
       return { success: true };
@@ -170,15 +170,15 @@ export const AuthProvider = ({ children }) => {
       const errorMessage = error.response?.data?.message || 'Password change failed';
       return { success: false, error: errorMessage };
     }
-  };
+  }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     ...state,
     login,
     logout,
     clearError,
     changePassword,
-  };
+  }), [state, login, logout, clearError, changePassword]);
 
   return (
     <AuthContext.Provider value={value}>
