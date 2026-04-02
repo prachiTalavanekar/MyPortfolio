@@ -84,7 +84,7 @@ const skillSchema = Joi.object({
   description: Joi.string().max(500).trim().allow(''),
   certifications: Joi.array().items(Joi.string().trim()),
   icon: Joi.string().allow(''),
-  color: Joi.string().pattern(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/).allow(''),
+  color: Joi.string().allow('').pattern(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
   order: Joi.number().integer(),
   isVisible: Joi.boolean(),
   isFeatured: Joi.boolean()

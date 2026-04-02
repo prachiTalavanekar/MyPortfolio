@@ -64,11 +64,11 @@ const Admin = () => {
     setLoading(true);
     try {
       const [projRes, expRes, eduRes, skillRes, certRes, statsRes] = await Promise.all([
-        projectsAPI.getAll({ visible: 'all' }),
-        experienceAPI.getAll({ visible: 'all' }),
-        educationAPI.getAll({ visible: 'all' }),
-        skillsAPI.getAll({ visible: 'all' }),
-        certificationsAPI.getAll({ visible: 'all' }),
+        projectsAPI.getAll({ visible: 'false' }),
+        experienceAPI.getAll({ visible: 'false' }),
+        educationAPI.getAll({ visible: 'false' }),
+        skillsAPI.getAll({ visible: 'false' }),
+        certificationsAPI.getAll({ visible: 'false' }),
         analyticsAPI.getStats()
       ]);
 
@@ -117,7 +117,8 @@ const Admin = () => {
         }
 
         await api.delete(id);
-        showMsg('success', `${type.charAt(0).toUpperCase() + type.slice(1, -1)} deleted successfully`);
+        const labels = { projects: 'Project', experience: 'Experience', education: 'Education', skills: 'Skill', certifications: 'Certification' };
+        showMsg('success', `${labels[type] || type} deleted successfully`);
         
         // Update local state
         switch(type) {
@@ -466,6 +467,14 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
     setFormData(prev => ({ ...prev, [name]: (prev[name] || []).filter((_, i) => i !== index) }));
   };
 
+  const typeLabel = {
+    projects: 'Project',
+    experience: 'Experience',
+    education: 'Education',
+    skills: 'Skill',
+    certifications: 'Certification'
+  }[type] || type;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -480,12 +489,20 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
         default: return;
       }
 
+      // Clean up array fields — remove empty strings before submitting
+      const cleanedData = { ...formData };
+      Object.keys(cleanedData).forEach(key => {
+        if (Array.isArray(cleanedData[key])) {
+          cleanedData[key] = cleanedData[key].filter(item => item && item.trim && item.trim() !== '');
+        }
+      });
+
       if (id === 'new') {
-        await api.create(formData);
-        showMsg('success', `${type.slice(0, -1)} created successfully`);
+        await api.create(cleanedData);
+        showMsg('success', `${typeLabel} created successfully`);
       } else {
-        await api.update(id, formData);
-        showMsg('success', `${type.slice(0, -1)} updated successfully`);
+        await api.update(id, cleanedData);
+        showMsg('success', `${typeLabel} updated successfully`);
       }
       onSuccess();
     } catch (error) {
@@ -501,7 +518,7 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
       <input
         type={type}
         name={name}
-        value={formData[name] || ''}
+        value={formData[name] ?? ''}
         onChange={handleChange}
         className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-text-muted/30"
         {...props}
@@ -514,7 +531,7 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
       <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
       <select
         name={name}
-        value={formData[name] || ''}
+        value={formData[name] ?? ''}
         onChange={handleChange}
         className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all appearance-none"
       >
@@ -530,7 +547,7 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
       <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
       <textarea
         name={name}
-        value={formData[name] || ''}
+        value={formData[name] ?? ''}
         onChange={handleChange}
         rows={rows}
         className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all resize-none"
