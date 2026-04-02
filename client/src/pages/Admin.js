@@ -395,6 +395,97 @@ const Admin = () => {
   );
 };
 
+// --- Field components defined OUTSIDE AdminForm to prevent remount on every keystroke ---
+
+const FormInput = ({ label, name, type = "text", formData, onChange, ...props }) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
+    <input
+      type={type}
+      name={name}
+      value={formData[name] ?? ''}
+      onChange={onChange}
+      className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-text-muted/30"
+      {...props}
+    />
+  </div>
+);
+
+const FormSelect = ({ label, name, options, formData, onChange }) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
+    <select
+      name={name}
+      value={formData[name] ?? ''}
+      onChange={onChange}
+      className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all appearance-none"
+    >
+      {options.map(opt => (
+        <option key={opt.value || opt} value={opt.value || opt}>{opt.label || opt}</option>
+      ))}
+    </select>
+  </div>
+);
+
+const FormTextArea = ({ label, name, rows = 3, formData, onChange }) => (
+  <div className="space-y-1.5 lg:col-span-2">
+    <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
+    <textarea
+      name={name}
+      value={formData[name] ?? ''}
+      onChange={onChange}
+      rows={rows}
+      className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all resize-none"
+    />
+  </div>
+);
+
+const FormArrayInput = ({ label, name, formData, onArrayChange, onAdd, onRemove }) => (
+  <div className="lg:col-span-2 space-y-2">
+    <div className="flex justify-between items-center">
+      <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
+      <button
+        type="button"
+        onClick={() => onAdd(name)}
+        className="text-xs bg-secondary/10 hover:bg-secondary/20 text-secondary px-2 py-1 rounded-lg transition-colors flex items-center gap-1"
+      >
+        <FaPlus /> Add
+      </button>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      {(formData[name] || []).map((item, index) => (
+        <div key={index} className="relative group">
+          <input
+            value={item}
+            onChange={(e) => onArrayChange(name, index, e.target.value)}
+            className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2 focus:border-secondary outline-none pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => onRemove(name, index)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+          >
+            <FaTimes />
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const FormCheckbox = ({ label, name, formData, onChange }) => (
+  <div className="flex items-center gap-3 py-2">
+    <input
+      type="checkbox"
+      name={name}
+      checked={formData[name] || false}
+      onChange={onChange}
+      className="w-5 h-5 accent-secondary"
+    />
+    <label className="text-sm font-semibold text-text">{label}</label>
+  </div>
+);
+
 // Form Component for CRUD
 const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
   const [formData, setFormData] = useState({});
@@ -512,94 +603,9 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
     }
   };
 
-  const Input = ({ label, name, type = "text", ...props }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={formData[name] ?? ''}
-        onChange={handleChange}
-        className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-text-muted/30"
-        {...props}
-      />
-    </div>
-  );
-
-  const Select = ({ label, name, options }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
-      <select
-        name={name}
-        value={formData[name] ?? ''}
-        onChange={handleChange}
-        className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all appearance-none"
-      >
-        {options.map(opt => (
-          <option key={opt.value || opt} value={opt.value || opt}>{opt.label || opt}</option>
-        ))}
-      </select>
-    </div>
-  );
-
-  const TextArea = ({ label, name, rows = 3 }) => (
-    <div className="space-y-1.5 lg:col-span-2">
-      <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
-      <textarea
-        name={name}
-        value={formData[name] ?? ''}
-        onChange={handleChange}
-        rows={rows}
-        className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2.5 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all resize-none"
-      />
-    </div>
-  );
-
-  const ArrayInput = ({ label, name }) => (
-    <div className="lg:col-span-2 space-y-2">
-      <div className="flex justify-between items-center">
-        <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
-        <button 
-          type="button" 
-          onClick={() => addArrayItem(name)}
-          className="text-xs bg-secondary/10 hover:bg-secondary/20 text-secondary px-2 py-1 rounded-lg transition-colors flex items-center gap-1"
-        >
-          <FaPlus /> Add
-        </button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {(formData[name] || []).map((item, index) => (
-          <div key={index} className="relative group">
-            <input
-              value={item}
-              onChange={(e) => handleArrayChange(name, index, e.target.value)}
-              className="w-full bg-background/50 border border-secondary/20 rounded-xl px-4 py-2 focus:border-secondary outline-none pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => removeArrayItem(name, index)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-            >
-              <FaTimes />
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const Checkbox = ({ label, name }) => (
-    <div className="flex items-center gap-3 py-2">
-      <input
-        type="checkbox"
-        name={name}
-        checked={formData[name] || false}
-        onChange={handleChange}
-        className="w-5 h-5 accent-secondary"
-      />
-      <label className="text-sm font-semibold text-text">{label}</label>
-    </div>
-  );
+  // Shared props passed down to external field components
+  const fp = { formData, onChange: handleChange };
+  const ap = { formData, onArrayChange: handleArrayChange, onAdd: addArrayItem, onRemove: removeArrayItem };
 
   if (loading && id !== 'new') return <div className="flex justify-center p-20"><FaSpinner className="animate-spin text-3xl text-secondary" /></div>;
 
@@ -621,88 +627,88 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {type === 'projects' && (
             <>
-              <Input label="Title" name="title" required />
-              <Select label="Status" name="status" options={['Planning', 'In Progress', 'Completed', 'On Hold']} />
-              <TextArea label="Description" name="description" required />
-              <TextArea label="Long Description" name="longDescription" />
-              <Input label="GitHub URL" name="github" type="url" />
-              <Input label="Demo URL" name="demo" type="url" />
-              <Input label="Image URL" name="image" />
-              <Input label="Start Date" name="startDate" type="date" />
-              <Input label="End Date" name="endDate" type="date" />
-              <Input label="Priority" name="priority" type="number" />
-              <ArrayInput label="Technologies" name="technologies" />
-              <ArrayInput label="Features" name="features" />
-              <ArrayInput label="Tags" name="tags" />
-              <Checkbox label="Is Visible" name="isVisible" />
+              <FormInput label="Title" name="title" required {...fp} />
+              <FormSelect label="Status" name="status" options={['Planning', 'In Progress', 'Completed', 'On Hold']} {...fp} />
+              <FormTextArea label="Description" name="description" required {...fp} />
+              <FormTextArea label="Long Description" name="longDescription" {...fp} />
+              <FormInput label="GitHub URL" name="github" type="url" {...fp} />
+              <FormInput label="Demo URL" name="demo" type="url" {...fp} />
+              <FormInput label="Image URL" name="image" {...fp} />
+              <FormInput label="Start Date" name="startDate" type="date" {...fp} />
+              <FormInput label="End Date" name="endDate" type="date" {...fp} />
+              <FormInput label="Priority" name="priority" type="number" {...fp} />
+              <FormArrayInput label="Technologies" name="technologies" {...ap} />
+              <FormArrayInput label="Features" name="features" {...ap} />
+              <FormArrayInput label="Tags" name="tags" {...ap} />
+              <FormCheckbox label="Is Visible" name="isVisible" {...fp} />
             </>
           )}
 
           {type === 'experience' && (
             <>
-              <Input label="Job Title" name="title" required />
-              <Input label="Company" name="company" required />
-              <Input label="Location" name="location" />
-              <Select label="Employment Type" name="employmentType" options={['Full-time', 'Part-time', 'Internship', 'Freelance', 'Contract']} />
-              <Input label="Start Date" name="startDate" type="date" required />
-              <Input label="End Date" name="endDate" type="date" disabled={formData.isCurrent} />
-              <Input label="Company Website" name="companyWebsite" type="url" />
-              <Input label="Company Logo URL" name="companyLogo" />
-              <TextArea label="Description" name="description" required />
-              <ArrayInput label="Responsibilities" name="responsibilities" />
-              <ArrayInput label="Achievements" name="achievements" />
-              <ArrayInput label="Technologies" name="technologies" />
-              <Checkbox label="Current Job" name="isCurrent" />
-              <Checkbox label="Is Visible" name="isVisible" />
+              <FormInput label="Job Title" name="title" required {...fp} />
+              <FormInput label="Company" name="company" required {...fp} />
+              <FormInput label="Location" name="location" {...fp} />
+              <FormSelect label="Employment Type" name="employmentType" options={['Full-time', 'Part-time', 'Internship', 'Freelance', 'Contract']} {...fp} />
+              <FormInput label="Start Date" name="startDate" type="date" required {...fp} />
+              <FormInput label="End Date" name="endDate" type="date" disabled={formData.isCurrent} {...fp} />
+              <FormInput label="Company Website" name="companyWebsite" type="url" {...fp} />
+              <FormInput label="Company Logo URL" name="companyLogo" {...fp} />
+              <FormTextArea label="Description" name="description" required {...fp} />
+              <FormArrayInput label="Responsibilities" name="responsibilities" {...ap} />
+              <FormArrayInput label="Achievements" name="achievements" {...ap} />
+              <FormArrayInput label="Technologies" name="technologies" {...ap} />
+              <FormCheckbox label="Current Job" name="isCurrent" {...fp} />
+              <FormCheckbox label="Is Visible" name="isVisible" {...fp} />
             </>
           )}
 
           {type === 'education' && (
             <>
-              <Input label="Degree" name="degree" required />
-              <Input label="Institution" name="institution" required />
-              <Input label="Field of Study" name="fieldOfStudy" />
-              <Input label="Location" name="location" />
-              <Input label="Start Date" name="startDate" type="date" required />
-              <Input label="End Date" name="endDate" type="date" disabled={formData.isCurrent} />
-              <Input label="CGPA" name="cgpa" type="number" step="0.01" />
-              <Input label="Percentage" name="percentage" type="number" />
-              <TextArea label="Description" name="description" />
-              <ArrayInput label="Subjects" name="subjects" />
-              <ArrayInput label="Achievements" name="achievements" />
-              <Checkbox label="Currently Pursuing" name="isCurrent" />
-              <Checkbox label="Is Visible" name="isVisible" />
+              <FormInput label="Degree" name="degree" required {...fp} />
+              <FormInput label="Institution" name="institution" required {...fp} />
+              <FormInput label="Field of Study" name="fieldOfStudy" {...fp} />
+              <FormInput label="Location" name="location" {...fp} />
+              <FormInput label="Start Date" name="startDate" type="date" required {...fp} />
+              <FormInput label="End Date" name="endDate" type="date" disabled={formData.isCurrent} {...fp} />
+              <FormInput label="CGPA" name="cgpa" type="number" step="0.01" {...fp} />
+              <FormInput label="Percentage" name="percentage" type="number" {...fp} />
+              <FormTextArea label="Description" name="description" {...fp} />
+              <FormArrayInput label="Subjects" name="subjects" {...ap} />
+              <FormArrayInput label="Achievements" name="achievements" {...ap} />
+              <FormCheckbox label="Currently Pursuing" name="isCurrent" {...fp} />
+              <FormCheckbox label="Is Visible" name="isVisible" {...fp} />
             </>
           )}
 
           {type === 'skills' && (
             <>
-              <Input label="Skill Name" name="name" required />
-              <Select label="Category" name="category" options={['Programming Languages', 'Frontend', 'Backend', 'Database', 'Tools & Technologies', 'Frameworks', 'Cloud Services', 'Mobile Development', 'DevOps', 'Design', 'Soft Skills', 'Other']} />
-              <Select label="Level" name="level" options={['Beginner', 'Intermediate', 'Advanced', 'Expert']} />
-              <Input label="Proficiency (%)" name="proficiency" type="number" min="0" max="100" />
-              <Input label="Years of Experience" name="yearsOfExperience" type="number" />
-              <Input label="Icon Class/URL" name="icon" />
-              <Input label="Color (Hex)" name="color" placeholder="#ffffff" />
-              <Checkbox label="Featured Skill" name="isFeatured" />
-              <Checkbox label="Is Visible" name="isVisible" />
+              <FormInput label="Skill Name" name="name" required {...fp} />
+              <FormSelect label="Category" name="category" options={['Programming Languages', 'Frontend', 'Backend', 'Database', 'Tools & Technologies', 'Frameworks', 'Cloud Services', 'Mobile Development', 'DevOps', 'Design', 'Soft Skills', 'Other']} {...fp} />
+              <FormSelect label="Level" name="level" options={['Beginner', 'Intermediate', 'Advanced', 'Expert']} {...fp} />
+              <FormInput label="Proficiency (%)" name="proficiency" type="number" min="0" max="100" {...fp} />
+              <FormInput label="Years of Experience" name="yearsOfExperience" type="number" {...fp} />
+              <FormInput label="Icon Class/URL" name="icon" {...fp} />
+              <FormInput label="Color (Hex)" name="color" placeholder="#ffffff" {...fp} />
+              <FormCheckbox label="Featured Skill" name="isFeatured" {...fp} />
+              <FormCheckbox label="Is Visible" name="isVisible" {...fp} />
             </>
           )}
 
           {type === 'certifications' && (
             <>
-              <Input label="Title" name="title" required />
-              <Input label="Provider" name="provider" required />
-              <Select label="Category" name="category" options={['Programming', 'Web Development', 'Mobile Development', 'Data Science', 'Machine Learning', 'Cloud Computing', 'DevOps', 'Cybersecurity', 'Database', 'Design', 'Project Management', 'Soft Skills', 'Other']} />
-              <Input label="Issue Date" name="issueDate" type="date" required />
-              <Input label="Expiry Date" name="expiryDate" type="date" />
-              <Input label="Credential ID" name="credentialId" />
-              <Input label="Credential URL" name="credentialUrl" type="url" />
-              <Input label="Duration" name="duration" />
-              <TextArea label="Description" name="description" />
-              <ArrayInput label="Skills Learned" name="skills" />
-              <Checkbox label="Verified" name="isVerified" />
-              <Checkbox label="Is Visible" name="isVisible" />
+              <FormInput label="Title" name="title" required {...fp} />
+              <FormInput label="Provider" name="provider" required {...fp} />
+              <FormSelect label="Category" name="category" options={['Programming', 'Web Development', 'Mobile Development', 'Data Science', 'Machine Learning', 'Cloud Computing', 'DevOps', 'Cybersecurity', 'Database', 'Design', 'Project Management', 'Soft Skills', 'Other']} {...fp} />
+              <FormInput label="Issue Date" name="issueDate" type="date" required {...fp} />
+              <FormInput label="Expiry Date" name="expiryDate" type="date" {...fp} />
+              <FormInput label="Credential ID" name="credentialId" {...fp} />
+              <FormInput label="Credential URL" name="credentialUrl" type="url" {...fp} />
+              <FormInput label="Duration" name="duration" {...fp} />
+              <FormTextArea label="Description" name="description" {...fp} />
+              <FormArrayInput label="Skills Learned" name="skills" {...ap} />
+              <FormCheckbox label="Verified" name="isVerified" {...fp} />
+              <FormCheckbox label="Is Visible" name="isVisible" {...fp} />
             </>
           )}
         </div>
