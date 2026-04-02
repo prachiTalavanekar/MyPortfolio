@@ -72,6 +72,10 @@ const experienceSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  certificate: {
+    type: String,
+    trim: true
+  },
   order: {
     type: Number,
     default: 0

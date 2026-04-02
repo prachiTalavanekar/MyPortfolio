@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 
-const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
 
 // POST /api/upload - Upload image as base64 (admin only)
 router.post('/', auth, (req, res) => {

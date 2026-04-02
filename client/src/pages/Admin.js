@@ -398,6 +398,79 @@ const Admin = () => {
   );
 };
 
+// --- Generic file upload component (images + PDFs) ---
+const FileUpload = ({ label, currentUrl, onUploaded, accept, allowedTypes, maxMB = 5, previewType = 'image' }) => {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!allowedTypes.includes(file.type)) {
+      setError(`Allowed: ${accept}`);
+      return;
+    }
+    if (file.size > maxMB * 1024 * 1024) {
+      setError(`File must be under ${maxMB}MB`);
+      return;
+    }
+    setError('');
+    setUploading(true);
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await uploadAPI.uploadImage(base64, file.type, file.name);
+      onUploaded(res.data.url);
+    } catch (err) {
+      setError('Upload failed. Try again.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const isPdf = previewType === 'pdf';
+
+  return (
+    <div className="lg:col-span-2 space-y-2">
+      <label className="text-sm font-semibold text-text-muted ml-1">{label}</label>
+      <div className="flex flex-col sm:flex-row gap-4 items-start">
+        <div className="w-40 h-28 rounded-xl border-2 border-dashed border-secondary/30 flex items-center justify-center overflow-hidden bg-background/50 shrink-0">
+          {currentUrl ? (
+            isPdf
+              ? <a href={currentUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 text-secondary hover:text-accent transition-colors p-2 text-center">
+                  <FaFileAlt className="text-3xl" />
+                  <span className="text-xs">View PDF</span>
+                </a>
+              : <img src={currentUrl} alt="preview" className="w-full h-full object-cover rounded-xl" />
+          ) : (
+            isPdf
+              ? <FaFileAlt className="text-3xl text-secondary/30" />
+              : <FaImage className="text-3xl text-secondary/30" />
+          )}
+        </div>
+        <div className="flex-1 space-y-2">
+          <label className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-secondary/30 cursor-pointer hover:bg-secondary/10 transition-colors w-fit ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+            {uploading ? <FaSpinner className="animate-spin text-secondary" /> : <FaUpload className="text-secondary" />}
+            <span className="text-sm font-medium">{uploading ? 'Uploading...' : 'Choose from device'}</span>
+            <input type="file" accept={accept} onChange={handleFile} className="hidden" />
+          </label>
+          {error && <p className="text-red-400 text-xs ml-1">{error}</p>}
+          {currentUrl && (
+            <button type="button" onClick={() => onUploaded('')} className="text-xs text-red-400 hover:text-red-300 ml-1 flex items-center gap-1">
+              <FaTimes /> Remove
+            </button>
+          )}
+          <p className="text-xs text-text-muted/50 ml-1">{accept} · max {maxMB}MB</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Image upload component ---
 const ImageUpload = ({ currentUrl, onUploaded }) => {
   const [uploading, setUploading] = useState(false);
@@ -734,7 +807,23 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
               <FormInput label="Start Date" name="startDate" type="date" required {...fp} />
               <FormInput label="End Date" name="endDate" type="date" disabled={formData.isCurrent} {...fp} />
               <FormInput label="Company Website" name="companyWebsite" type="url" {...fp} />
-              <FormInput label="Company Logo URL" name="companyLogo" {...fp} />
+              <FileUpload
+                label="Company Logo"
+                currentUrl={formData.companyLogo || ''}
+                onUploaded={(url) => setFormData(prev => ({ ...prev, companyLogo: url }))}
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                allowedTypes={['image/jpeg', 'image/png', 'image/webp', 'image/gif']}
+                previewType="image"
+              />
+              <FileUpload
+                label="Internship Certificate (PDF)"
+                currentUrl={formData.certificate || ''}
+                onUploaded={(url) => setFormData(prev => ({ ...prev, certificate: url }))}
+                accept="application/pdf"
+                allowedTypes={['application/pdf']}
+                maxMB={10}
+                previewType="pdf"
+              />
               <FormTextArea label="Description" name="description" required {...fp} />
               <FormArrayInput label="Responsibilities" name="responsibilities" {...ap} />
               <FormArrayInput label="Achievements" name="achievements" {...ap} />

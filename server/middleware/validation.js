@@ -34,6 +34,7 @@ const experienceSchema = Joi.object({
   skills: Joi.array().items(Joi.string().trim()),
   companyWebsite: Joi.string().uri().allow(''),
   companyLogo: Joi.string().allow(''),
+  certificate: Joi.string().allow(''),
   order: Joi.number().integer(),
   isVisible: Joi.boolean()
 });
