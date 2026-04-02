@@ -113,6 +113,11 @@ export const contactAPI = {
   delete: (id) => api.delete(`/contact/${id}`),
 };
 
+// Upload API
+export const uploadAPI = {
+  uploadImage: (data, mimeType, fileName) => api.post('/upload', { data, mimeType, fileName }),
+};
+
 // Analytics API
 export const analyticsAPI = {
   getStats: () => api.get('/analytics/stats'),

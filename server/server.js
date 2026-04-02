@@ -57,9 +57,11 @@ try {
   const certificationRoutes = require('./routes/certifications');
   const contactRoutes = require('./routes/contact');
   const analyticsRoutes = require('./routes/analytics');
+  const uploadRoutes = require('./routes/upload');
 
   // Use routes
   app.use('/api/auth', authRoutes);
+  app.use('/api/upload', uploadRoutes);
   app.use('/api/projects', projectRoutes);
   app.use('/api/experience', experienceRoutes);
   app.use('/api/education', educationRoutes);

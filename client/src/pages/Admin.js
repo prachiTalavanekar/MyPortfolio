@@ -18,7 +18,9 @@ import {
   FaSignOutAlt,
   FaSpinner,
   FaCheckCircle,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaImage,
+  FaUpload
 } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 import { 
@@ -28,6 +30,7 @@ import {
   skillsAPI, 
   certificationsAPI,
   analyticsAPI,
+  uploadAPI,
   handleApiError 
 } from '../services/api';
 
@@ -395,6 +398,81 @@ const Admin = () => {
   );
 };
 
+// --- Image upload component ---
+const ImageUpload = ({ currentUrl, onUploaded }) => {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowed.includes(file.type)) {
+      setError('Only JPEG, PNG, WebP or GIF allowed');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be under 5MB');
+      return;
+    }
+
+    setError('');
+    setUploading(true);
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const res = await uploadAPI.uploadImage(base64, file.type, file.name);
+      onUploaded(res.data.url);
+    } catch (err) {
+      setError('Upload failed. Try again.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="lg:col-span-2 space-y-2">
+      <label className="text-sm font-semibold text-text-muted ml-1">Project Image</label>
+      <div className="flex flex-col sm:flex-row gap-4 items-start">
+        {/* Preview */}
+        <div className="w-40 h-28 rounded-xl border-2 border-dashed border-secondary/30 flex items-center justify-center overflow-hidden bg-background/50 shrink-0">
+          {currentUrl ? (
+            <img src={currentUrl} alt="preview" className="w-full h-full object-cover rounded-xl" />
+          ) : (
+            <FaImage className="text-3xl text-secondary/30" />
+          )}
+        </div>
+
+        {/* Controls */}
+        <div className="flex-1 space-y-2">
+          <label className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-secondary/30 cursor-pointer hover:bg-secondary/10 transition-colors w-fit ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+            {uploading ? <FaSpinner className="animate-spin text-secondary" /> : <FaUpload className="text-secondary" />}
+            <span className="text-sm font-medium">{uploading ? 'Uploading...' : 'Choose from device'}</span>
+            <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={handleFile} className="hidden" />
+          </label>
+          {error && <p className="text-red-400 text-xs ml-1">{error}</p>}
+          {currentUrl && (
+            <button
+              type="button"
+              onClick={() => onUploaded('')}
+              className="text-xs text-red-400 hover:text-red-300 ml-1 flex items-center gap-1"
+            >
+              <FaTimes /> Remove image
+            </button>
+          )}
+          <p className="text-xs text-text-muted/50 ml-1">JPEG, PNG, WebP or GIF · max 5MB</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Field components defined OUTSIDE AdminForm to prevent remount on every keystroke ---
 
 const FormInput = ({ label, name, type = "text", formData, onChange, ...props }) => (
@@ -633,7 +711,10 @@ const AdminForm = ({ type, id, onClose, onSuccess, showMsg }) => {
               <FormTextArea label="Long Description" name="longDescription" {...fp} />
               <FormInput label="GitHub URL" name="github" type="url" {...fp} />
               <FormInput label="Demo URL" name="demo" type="url" {...fp} />
-              <FormInput label="Image URL" name="image" {...fp} />
+              <ImageUpload
+                currentUrl={formData.image || ''}
+                onUploaded={(url) => setFormData(prev => ({ ...prev, image: url }))}
+              />
               <FormInput label="Start Date" name="startDate" type="date" {...fp} />
               <FormInput label="End Date" name="endDate" type="date" {...fp} />
               <FormInput label="Priority" name="priority" type="number" {...fp} />
